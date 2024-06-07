@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Env
+.venv/
+.env
+
+# VS Code Workspace
+resume_builder_poc.code-workspace
+
+# Test data
+test_users.txt
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
