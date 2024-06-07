@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts', # For auth and custom user model
+    'resume_builder',
 ]
 
 MIDDLEWARE = [
@@ -149,5 +150,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Set redirect for login / logout
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "resume_builder:dashboard"
+LOGOUT_REDIRECT_URL = "landingpage"
