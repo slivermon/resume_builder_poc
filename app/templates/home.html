@@ -1,14 +1,26 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Resume Builder: Landing Page{% endblock %}
 
 {% block content %}
 
-<h1>Resume Builder</h1>
-<br>
-<a href="{% url 'login' %}">Log in</a>
-<br>
-<a href="{% url 'signup' %}">Sign Up</a>
+
+<div class="container-sm">
+  <div class="row">
+    <h1>Resume Builder: Landing Page</h1>
+  </div>  
+  <div class="row">
+    <div class="col-sm-8 align-content-center text-center">
+      <p >Resume Builder is a proof-of-concept app where you compose your resume from a data-driven timeline of your experiences. </p>    
+      <a href="{% url 'login' %}">Log in</a>    
+      <a href="{% url 'signup' %}">Sign Up</a>
+    </div>
+    <div class="col-sm-4">
+      <img class="img-fluid" src="{% static 'images/resume_builder_poc_landing_page_1.jpg' %}">
+    </div>
+  </div>
+</div>
 
 {% endblock %}
 
