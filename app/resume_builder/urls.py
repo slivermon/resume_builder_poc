@@ -5,5 +5,5 @@ app_name = "resume_builder"
 
 urlpatterns = [
     # resume/
-    path("", views.index, name="dashboard"),
+    path("", views.index, name="index"),
 ]

@@ -3,4 +3,4 @@ from django.shortcuts import HttpResponse, render
 
 @login_required
 def index(request):
-    return render(request, "resume_builder/dashboard.html")
+    return render(request, "resume_builder/index.html")
