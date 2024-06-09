@@ -155,5 +155,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Set redirect for login / logout
-LOGIN_REDIRECT_URL = "resume_builder:dashboard"
+LOGIN_REDIRECT_URL = "resume_builder:index"
 LOGOUT_REDIRECT_URL = "landingpage"

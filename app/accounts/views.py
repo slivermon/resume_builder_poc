@@ -20,4 +20,4 @@ def landingpage(request):
         context = {
             "form": form,
         }        
-        return render(request, "home.html", context)
+        return render(request, "index.html", context)
