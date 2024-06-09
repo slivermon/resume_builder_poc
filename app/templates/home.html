@@ -1,40 +1,33 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Resume Builder: Landing Page{% endblock %}
+{% block title %}Resume Builder{% endblock %}
 
 {% block content %}
 
 
 <div class="container-sm">
   <div class="row">
-    <h1>Resume Builder: Landing Page</h1>
+    
   </div>  
   <div class="row">
-    <div class="col-sm-8 align-content-center text-center">
-      <p >Resume Builder is a proof-of-concept app where you compose your resume from a data-driven timeline of your experiences. </p>    
-      <a href="{% url 'login' %}">Log in</a>    
-      <a href="{% url 'signup' %}">Sign Up</a>
+    <div class="col-sm-6 align-content-center text-center">
+      <h1>Resume Builder</h1>
+      <br>
+      <p >Build your resume from a data-driven timeline of your professional experience in this proof-of-concept app. </p>          
+      <!-- <a class="btn btn-primary" role="button" href="{% url 'login' %}" >Log in</a>
+      <h2>Inline Log In</h2> -->
+        <form class="mt-5" method="post" action="accounts/login/">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button class="btn btn-primary" type="submit">Log In</button>
+        </form>
+      <a class="btn btn-link mt-5" role="button" href="{% url 'signup' %}">Sign up</a>      
     </div>
-    <div class="col-sm-4">
-      <img class="img-fluid" src="{% static 'images/resume_builder_poc_landing_page_1.jpg' %}">
+    <div class="col-sm-6">
+      <img class="img-fluid" src="{% static 'images/resume_builder_poc_landing_page_hero_crop.jpg' %}">
     </div>
   </div>
 </div>
 
 {% endblock %}
-
-
-<!--  block content %}
- if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <form action="{% url 'logout' %}" method="post">
-     csrf_token %}
-    <button type="submit">Log Out</button>
-  </form>
- else %}
-  <p>You are not logged in</p>
-  <a href=" url 'login' %}">Log In</a> |
-  <a href=" url 'signup' %}">Sign Up</a>
- endif %}
- endblock %} -->

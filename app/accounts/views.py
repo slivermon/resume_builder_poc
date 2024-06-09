@@ -1,6 +1,7 @@
 from django.shortcuts import HttpResponse, render
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import (AuthenticationForm)
 
 from .forms import CustomUserCreationForm
 
@@ -14,4 +15,9 @@ def landingpage(request):
     if request.method == "POST":
         return HttpResponse("Logged in landing page")
     
-    return render(request, "home.html")
+    else:
+        form = AuthenticationForm
+        context = {
+            "form": form,
+        }        
+        return render(request, "home.html", context)
