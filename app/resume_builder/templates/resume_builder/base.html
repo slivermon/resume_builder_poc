@@ -10,17 +10,25 @@
 </head>
 <body>
     <header>
-        <p>Navigation</p>
-        <ul>
-            <li>TODO: Update resume</li>
-            <li>TODO: Download PDF</li>
-            <li>
-                <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Log Out</button>
-                </form>
-            </li>
-        </ul>
+        <div class="row pb-5">
+            <div class="col-sm-2 align-content-center">
+                <h4>Resume Builder</h4>
+            </div>
+            <div class="col-sm-8 align-content-center">
+                <div class="d-flex">
+                    <div class="p-2">TODO: Update resume</div>
+                    <div class="p-2">TODO: Download PDF</div>
+                </div>                
+            </div>
+            <div class="col-sm-2 align-content-center">
+                <div class="d-flex justify-content-end">
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Log Out</button>
+                    </form>
+                </div>
+            </div>
+        </div>        
     </header>
     <main>
         {% block content %}
