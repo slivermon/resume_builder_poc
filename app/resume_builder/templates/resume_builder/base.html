@@ -22,12 +22,15 @@
                     <div class="p-2"><a class="btn btn-link" role="button" href="{% url 'resume_builder:download' %}">Download Resume</a></div>
                 </div>                
             </div>
-            <div class="col-sm-2 align-content-center">
+            <div class="col-sm-2 align-content-center">                
                 <div class="d-flex justify-content-end">
-                    <form action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">Log Out</button>
-                    </form>
+                    <div id="logout" class="d-flex flex-column align-items-center">
+                        <p>{{ user.username }}</p>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Log Out</button>
+                        </form>
+                    </div>                    
                 </div>
             </div>
         </div>        
