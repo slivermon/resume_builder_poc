@@ -12,8 +12,8 @@ def index(request):
     return render(request, "resume_builder/index.html", context)
 
 @login_required
-def update_resume(request):
-    return render(request, "resume_builder/update.html")
+def editor(request):
+    return render(request, "resume_builder/editor.html")
 
 @login_required
 def download(request):
