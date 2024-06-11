@@ -1,6 +1,20 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import HttpResponse, render
+from django.shortcuts import HttpResponse, get_object_or_404, render
+from .models import Timeline_Event, Timeline_Event_Detail
+from accounts.models import CustomUser
 
 @login_required
-def index(request):
-    return render(request, "resume_builder/index.html")
+def index(request):    
+    events = 1
+    context = {
+        "timeline": events
+    }
+    return render(request, "resume_builder/index.html", context)
+
+@login_required
+def update_resume(request):
+    return render(request, "resume_builder/update.html")
+
+@login_required
+def download(request):
+    return render(request, "resume_builder/download.html")

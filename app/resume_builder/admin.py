@@ -1,3 +1,10 @@
 from django.contrib import admin
+# from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .models import Timeline_Event, Timeline_Event_Detail
 
-# Register your models here.
+class UserTimelineAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Timeline_Event)
+admin.site.register(Timeline_Event_Detail)
