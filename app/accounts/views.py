@@ -17,7 +17,6 @@ def landingpage(request):
     
     else:
         form = AuthenticationForm
-        context = {
-            "form": form,
-        }        
+        context = {"form": form}
+        print(context)
         return render(request, "index.html", context)
