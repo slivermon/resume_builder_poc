@@ -12,7 +12,7 @@ class Index(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         print(self.request.user.id)
-        return Timeline_Event.objects.filter(user_id=self.request.user.id)
+        return Timeline_Event.objects.order_by("-timeline_start_date").filter(user_id=self.request.user.id)
 
 
 class Editor(LoginRequiredMixin, TemplateView):
