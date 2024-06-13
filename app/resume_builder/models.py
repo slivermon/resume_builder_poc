@@ -7,7 +7,7 @@ class Timeline_Event(models.Model):
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     event_add_datetime = models.DateTimeField("datetime event added to timeline")
     timeline_start_date = models.DateField("start date")
-    timeline_end_date = models.DateField("end date", null=True)
+    timeline_end_date = models.DateField("end date", null=True, blank=True)
     
     # org_type is one of: company, education
     org_type = models.CharField(max_length=20)
