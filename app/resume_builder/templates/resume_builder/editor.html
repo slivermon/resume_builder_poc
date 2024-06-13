@@ -4,9 +4,23 @@
 
 {% block content %}
 <h1>Editor</h1>
-<form action = "" method = "post">
+<form class="d-flex flex-column p-3" action="" method = "post">
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+    {% endfor %}
+
     {% csrf_token %}
-    {{form }}
-    <input type="submit" value=Submit">
+
+    {{ form.non_form_errors }}
+
+    {% for field in form %}
+        {{ field.errors }}
+        <span class="p-3">
+            {{ field.label_tag }} {{ field }}
+        </span>
+    {% endfor %}
+    
+    <input class=" btn btn-primary w-100 mb-2" type="submit" value="Submit">
 </form>
 {% endblock %}

@@ -1,7 +1,8 @@
+from django.contrib.auth.forms import (AuthenticationForm)
 from django.shortcuts import HttpResponse, render
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from django.contrib.auth.forms import (AuthenticationForm)
+
 
 from .forms import CustomUserCreationForm
 
