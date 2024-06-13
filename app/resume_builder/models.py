@@ -4,7 +4,11 @@ from accounts.models import CustomUser
 
 class Timeline_Event(models.Model):
     '''Base event details share among all timeline events'''
-    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        db_column="user_id",
+    )
     event_add_datetime = models.DateTimeField("datetime event added to timeline")
     timeline_start_date = models.DateField("start date")
     timeline_end_date = models.DateField("end date", null=True, blank=True)
@@ -33,7 +37,8 @@ class Timeline_Event_Detail(models.Model):
     user_id = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
-        related_name="event_details"
+        related_name="event_details",
+        db_column="user_id",
     )
     timeline_event_id = models.ForeignKey(
         Timeline_Event,
