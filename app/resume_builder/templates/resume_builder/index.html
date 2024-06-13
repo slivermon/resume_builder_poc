@@ -4,14 +4,16 @@
 
 {% block content %}
 <h1>Dashboard</h1>
-{% for item in context %}
-    <ul>
-        <li>
-            {{ item }}
-        </li>
-    </ul>
-<!-- % empty %}
-    <p>TODO: link to update resume page</p> -->
-{% endfor %}
+{% if timeline_event_list %}
+    {% for event in timeline_event_list %}
+        <ul class="list-group">
+            <li class="list-group-item">
+                {{ event }}
+            </li>
+        </ul>
+    {% endfor %}
+{% else %}
+    <p>Create your timeline by visting the Editor.</p>
+{% endif %}
 {% endblock %}
 
