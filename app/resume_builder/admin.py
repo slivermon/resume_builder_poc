@@ -3,11 +3,11 @@ from django.contrib import admin
 from .models import Timeline_Event, Timeline_Event_Detail
 
 class TimelineEventAdmin(admin.ModelAdmin):
-    list_display = ("user_id", "timeline_start_date", "org_name", "role_name")
+    list_display = ("pk", "user_id", "timeline_start_date", "org_name", "role_name")
 
 
 class TimelineEventDetailAdmin(admin.ModelAdmin):
-    list_display = ("user_id", "timeline_event_id", "content")
+    list_display = ("pk", "timeline_event_id", "user_id", "content")
 
 
 admin.site.register(Timeline_Event, TimelineEventAdmin)
