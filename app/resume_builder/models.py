@@ -9,15 +9,15 @@ class Timeline_Event(models.Model):
         on_delete=models.CASCADE,
         db_column="user_id",
     )
-    event_add_datetime = models.DateTimeField("datetime event added to timeline")
+    event_add_datetime = models.DateTimeField(null=True)
     timeline_start_date = models.DateField("start date")
     timeline_end_date = models.DateField("end date", null=True, blank=True)
     
     # org_type is one of: company, education
     org_type = models.CharField(max_length=20)
 
-    org_name = models.CharField(max_length=50)
-    role_name = models.CharField(max_length=50)
+    org_name = models.CharField("company", max_length=50)
+    role_name = models.CharField("role", max_length=50)
 
     def __str__(self):        
         return f"{self.user_id}: {self.timeline_start_date}, {self.org_name}, {self.role_name}, {self.org_type}"
@@ -42,7 +42,8 @@ class Timeline_Event_Detail(models.Model):
     )
     timeline_event_id = models.ForeignKey(
         Timeline_Event,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        db_column="timeline_event_id",
     )
     content = models.CharField(max_length=1000, null=True, blank=True)    
 
