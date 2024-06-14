@@ -20,7 +20,7 @@ class Timeline_Event(models.Model):
     role_name = models.CharField("role", max_length=50)
 
     def __str__(self):        
-        return f"{self.user_id}: {self.timeline_start_date}, {self.org_name}, {self.role_name}, {self.org_type}"
+        return f"pk: {self.pk}, org: {self.org_name}"
 
     def get_events(self, user_id):
         return self.objects.filter(user_id)
@@ -48,7 +48,7 @@ class Timeline_Event_Detail(models.Model):
     content = models.CharField(max_length=1000, null=True, blank=True)    
 
     def __str__(self):        
-        return f"{self.user_id}: {self.timeline_event_id}, {self.content}"
+        return f"{self.pk}"
 
     def get_event_detail(self, user_id):
         return self.objects.filter(user_id)
