@@ -7,6 +7,7 @@ class Timeline_Event(models.Model):
     user_id = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
+        related_name="timeline_user_id",
         db_column="user_id",
     )
     event_add_datetime = models.DateTimeField(null=True)
@@ -45,7 +46,11 @@ class Timeline_Event_Detail(models.Model):
         on_delete=models.CASCADE,
         db_column="timeline_event_id",
     )
-    content = models.CharField(max_length=1000, null=True, blank=True)    
+    content = models.CharField(
+        max_length=1000,
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):        
         return f"{self.pk}"

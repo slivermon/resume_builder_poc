@@ -7,8 +7,19 @@
 {% if timeline_event_list %}
     {% for event in timeline_event_list %}
         <ul class="list-group">
-            <li class="list-group-item">
-                {{ event }}
+            <li class="list-group-item">                
+                <span>
+                    {{ event.role_name }} | {{ event.org_name }}
+                </span>
+                <span>{{ event.timeline_start_date }} 
+                {% if event.timeline_end_date %}
+                    To: {{ event.timeline_end_date}}
+                {% endif %}
+                </span>
+                <li>
+                    {{ event.timeline_event_id }}
+                    {{ event.content }}                    
+                </li>
             </li>
         </ul>
     {% endfor %}
@@ -16,4 +27,3 @@
     <p>Create your timeline by visting the Editor.</p>
 {% endif %}
 {% endblock %}
-

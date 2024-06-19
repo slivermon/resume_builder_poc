@@ -1,4 +1,4 @@
-from typing import Any
+# from typing import Any
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (TemplateView, ListView, CreateView)
@@ -12,12 +12,19 @@ class Index(LoginRequiredMixin, ListView):
     model = Timeline_Event
     template_name = "resume_builder/index.html"
 
-    def get_queryset(self):        
-        return Timeline_Event.objects.order_by("-timeline_start_date").filter(
-            user_id=self.request.user.id
-        )
-    # def get_queryset(self):        
-    #     return Timeline_Event.objects.order_by("-timeline_start_date").filter(user_id=self.request.user.id)
+    # def get_queryset(self):
+    #     context = Timeline_Event.objects.filter(
+    #         user_id=self.request.user.id,
+    #         timeline_event_detail__user_id=self.request.user.id,
+    #     ).order_by("-timeline_start_date")
+    #     return context
+
+    def get_queryset(self):
+        context = Timeline_Event.objects.filter(
+            user_id=self.request.user.id,
+            timeline_event_detail__user_id=self.request.user.id,
+        ).order_by("-timeline_start_date")
+        return context
 
 
 class Editor(LoginRequiredMixin, CreateView):
