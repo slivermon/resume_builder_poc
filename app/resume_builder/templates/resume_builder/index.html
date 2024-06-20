@@ -4,6 +4,51 @@
 
 {% block content %}
 <h1>Dashboard</h1>
+
+{% if object_list %}
+<p>yup list</p>
+{% for event in object_list %}
+    <ul>
+        <li>
+            <span>{{ event.role }} | {{ event.company }}</span>
+            <span>{{ event.start_date }} 
+                {% if event.end_date %}
+                     - {{ event.end_date }}
+                {% endif %}
+            </span>
+            {% if event.content %}
+            <ul>
+            {% for detail in event.content %}
+                <li>
+                    {{ detail }}
+                </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </li>
+    </ul>    
+{% endfor %}
+{% endif %}
+
+{% if timeline_event_detail_list %}
+<p>yup</p>
+{% for event in timeline_event_detail_list %}
+    <ul>
+        <li>
+            <span>{{ event.timeline_event_id.role_name}} | {{ event.timeline_event_id.org_name}}</span>
+            <span>{{ event.timeline_event_id.timeline_start_date }} 
+                {% if event.timeline_event_id.timeline_start_date %}
+                     - {{ event.timeline_event_id.timeline_end_date }}
+                {% endif %}
+            </span>
+                <li>
+                    {{ event.content }}
+                </li>
+        </li>
+    </ul>    
+{% endfor %}
+{% endif %}
+
 {% if timeline_event_list %}
     {% for event in timeline_event_list %}
         <ul class="list-group">
@@ -17,8 +62,8 @@
                 {% endif %}
                 </span>
                 <li>
-                    {{ event.timeline_event_id }}
-                    {{ event.content }}                    
+                    {{ event.id.content }}
+                    {{ event.user_id }}                    
                 </li>
             </li>
         </ul>
