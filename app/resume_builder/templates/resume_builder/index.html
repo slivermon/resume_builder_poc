@@ -3,14 +3,14 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h1>Dashboard</h1>
+<h1 class="pb-5">Dashboard</h1>
 
 {% if object_list %}
-<p>yup list</p>
 {% for event in object_list %}
-    <ul>
-        <li>
+    <ul class="no-bullets">
+        <li class="pb-5">
             <span>{{ event.role }} | {{ event.company }}</span>
+            <br>
             <span>{{ event.start_date }} 
                 {% if event.end_date %}
                      - {{ event.end_date }}
@@ -28,6 +28,8 @@
         </li>
     </ul>    
 {% endfor %}
+{% else %}
+    <p>Create your timeline by visting the Editor.</p>
 {% endif %}
 
 {% if timeline_event_detail_list %}
@@ -69,6 +71,6 @@
         </ul>
     {% endfor %}
 {% else %}
-    <p>Create your timeline by visting the Editor.</p>
+    <p></p>
 {% endif %}
 {% endblock %}
