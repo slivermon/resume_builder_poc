@@ -3,21 +3,34 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h1 class="pb-5">Dashboard</h1>
+<h1 class="pb-5">Resume Preview</h1>
 
 {% if object_list %}
+    <div class="d-flex flex-row align-items-center pb-5">
+        <h2>{{ user.get_full_name }}</h2>
+    </div>
+    <div class="d-flex flex-row align-items-center pb-3">
+        <h4>Experience</h4>
+    </div>
 {% for event in object_list %}
-    <ul class="no-bullets">
-        <li class="pb-5">
-            <span>{{ event.role }} | {{ event.company }}</span>
-            <br>
+    <div class="d-flex flex-row align-items-center">        
+        <div class="col-sm-8 justify-conent-start">
+            <span class="fw-bold">{{ event.role }}</span> / <span>{{ event.company }}</span>
+        </div>
+        <div class="col-sm-4 justify-conent-end">
             <span>{{ event.start_date }} 
                 {% if event.end_date %}
                      - {{ event.end_date }}
+                {% else %}
+                    - <span>present</span>
                 {% endif %}
             </span>
+        </div>               
+    </div>
+    <ul class="no-bullets">
+        <li class="pb-4">            
             {% if event.content %}
-            <ul>
+            <ul class="detail-bullets">
             {% for detail in event.content %}
                 <li>
                     {{ detail }}
@@ -26,51 +39,10 @@
             </ul>
             {% endif %}
         </li>
-    </ul>    
+    </ul>        
 {% endfor %}
 {% else %}
     <p>Create your timeline by visting the Editor.</p>
 {% endif %}
 
-{% if timeline_event_detail_list %}
-<p>yup</p>
-{% for event in timeline_event_detail_list %}
-    <ul>
-        <li>
-            <span>{{ event.timeline_event_id.role_name}} | {{ event.timeline_event_id.org_name}}</span>
-            <span>{{ event.timeline_event_id.timeline_start_date }} 
-                {% if event.timeline_event_id.timeline_start_date %}
-                     - {{ event.timeline_event_id.timeline_end_date }}
-                {% endif %}
-            </span>
-                <li>
-                    {{ event.content }}
-                </li>
-        </li>
-    </ul>    
-{% endfor %}
-{% endif %}
-
-{% if timeline_event_list %}
-    {% for event in timeline_event_list %}
-        <ul class="list-group">
-            <li class="list-group-item">                
-                <span>
-                    {{ event.role_name }} | {{ event.org_name }}
-                </span>
-                <span>{{ event.timeline_start_date }} 
-                {% if event.timeline_end_date %}
-                    To: {{ event.timeline_end_date}}
-                {% endif %}
-                </span>
-                <li>
-                    {{ event.id.content }}
-                    {{ event.user_id }}                    
-                </li>
-            </li>
-        </ul>
-    {% endfor %}
-{% else %}
-    <p></p>
-{% endif %}
 {% endblock %}

@@ -12,3 +12,9 @@ ul.no-bullets {
     padding: 0;
     margin: 0;
 }
+
+ul.detail-bullets {
+    list-style-type: disc;
+    /* padding: 10;
+    margin: 10; */
+}
