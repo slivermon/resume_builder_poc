@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.forms import ModelForm
+from django.forms import ModelForm, DateInput
 from django.forms.widgets import HiddenInput, SelectDateWidget
 from resume_builder.models import Timeline_Event
 
@@ -27,5 +27,6 @@ class TimelineForm(ModelForm):
 
         widgets = {            
             "timeline_start_date": SelectDateWidget(years=years),
+            # "timeline_start_date": DateInput(attrs={'type': 'date', 'format': '%Y-%m'}),
             "timeline_end_date": SelectDateWidget(years=years),            
         }

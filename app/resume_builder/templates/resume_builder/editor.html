@@ -23,7 +23,7 @@
     {% endif %}
 
     {% for field in form %}
-        {{ field.errors }}
+        {{ field.errors }}        
         <span class="p-3">
             {{ field.label_tag }} {{ field }}
         </span>
@@ -31,16 +31,5 @@
     
     <input class=" btn btn-primary w-100 mb-2" type="submit" value="Submit">
 </form>
-
-{% if timeline_event_list %}
-    {% for event in timeline_event_list %}
-        <ul class="list-group">
-            <li class="list-group-item">
-                {{ event }}                
-            </li>
-        </ul>
-    {% endfor %}
-
-{% endif %}
 
 {% endblock %}

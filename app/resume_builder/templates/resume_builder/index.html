@@ -18,9 +18,9 @@
             <span class="fw-bold">{{ event.role }}</span> / <span>{{ event.company }}</span>
         </div>
         <div class="col-sm-4 justify-conent-end">
-            <span>{{ event.start_date }} 
+            <span>{{ event.start_date | date:"F Y" }} 
                 {% if event.end_date %}
-                     - {{ event.end_date }}
+                     - {{ event.end_date | date:"F Y" }}
                 {% else %}
                     - <span>present</span>
                 {% endif %}

@@ -39,7 +39,7 @@ class Index(LoginRequiredMixin, ListView):
                 "end_date": item.timeline_end_date,
                 "content": details,               
             })
-                       
+        
         return context
 
 
@@ -47,7 +47,7 @@ class Editor(LoginRequiredMixin, CreateView):
     model = Timeline_Event
     form_class = TimelineForm
     template_name = "resume_builder/editor.html"
-    success_url = "/resume/editor/"
+    success_url = "/resume/editor/"    
     
     def form_valid(self, form): # https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
         form.instance.user_id = self.request.user
