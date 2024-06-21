@@ -54,7 +54,7 @@ class Editor(LoginRequiredMixin, CreateView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            "Event sandwich added to timeline",
+            "Event added to timeline",
         )
         return super().form_valid(form)
 
