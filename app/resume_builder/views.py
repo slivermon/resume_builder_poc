@@ -12,15 +12,6 @@ class Index(LoginRequiredMixin, ListView):
     model = Timeline_Event
     template_name = "resume_builder/index.html"
 
-    # def get_queryset(self):     
-    #     return Timeline_Event.objects.filter(
-    #         user_id=self.request.user.id,
-    #         timeline_event_detail__user_id=self.request.user.id,
-    #         ).order_by("-timeline_start_date")
-
-    # def get_queryset(self):     
-    #     return Timeline_Event_Detail.objects.select_related("timeline_event_id")
-
     def get_queryset(self):     
         queryset = Timeline_Event.objects.filter(user_id=self.request.user.id)
         context = []
@@ -48,7 +39,12 @@ class Editor(LoginRequiredMixin, CreateView):
     form_class = TimelineForm
     template_name = "resume_builder/editor.html"
     success_url = "/resume/editor/"    
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["timeline"] = Timeline_Event.objects.filter(user_id=self.request.user.id)
+        return context
+  
     def form_valid(self, form): # https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
         form.instance.user_id = self.request.user
         messages.add_message(
@@ -56,7 +52,7 @@ class Editor(LoginRequiredMixin, CreateView):
             messages.SUCCESS,
             "Event added to timeline",
         )
-        return super().form_valid(form)
+        return super().form_valid(form) # Saves the form
 
 
 class Download(LoginRequiredMixin, TemplateView):

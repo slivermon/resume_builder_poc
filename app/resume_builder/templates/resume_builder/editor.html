@@ -29,7 +29,37 @@
         </span>
     {% endfor %}
     
-    <input class=" btn btn-primary w-100 mb-2" type="submit" value="Submit">
+    <div class="d-grid gap-2 d-md-block justify-content-center">
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </div>
 </form>
+
+{% if timeline %}    
+    <h4 class="pt-5">My companies</h4>    
+{% for event in timeline %}
+    {{ event.company }}
+    <div class="d-flex flex-row align-items-center">        
+        <!-- <div class="col-sm-8 justify-conent-start">
+            <span>{{ event.org_name }}</span>:  <span>{{ event.role_name }}</span>
+        </div> -->
+        <!-- <div class="col-sm-4 justify-conent-end">
+            <span>{{ event.start_date | date:"F Y" }} 
+                {% if event.end_date %}
+                     - {{ event.end_date | date:"F Y" }}
+                {% else %}
+                    - <span>present</span>
+                {% endif %}
+            </span>
+        </div>                -->
+    </div>
+    <ul class="">
+        <li>            
+            <span>{{ event.org_name }}</span> <span class="fst-italic">({{ event.role_name }})</span>
+        </li>
+    </ul>        
+{% endfor %}
+{% else %}
+    <p>Create your timeline by visting the Editor.</p>
+{% endif %}
 
 {% endblock %}
