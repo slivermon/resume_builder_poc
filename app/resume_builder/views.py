@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import (CreateView, ListView, TemplateView, UpdateView)
+from django.views.generic import (CreateView, DeleteView, ListView, TemplateView, UpdateView)
 
 
 from .forms import TimelineForm, TimelineDetailForm
@@ -145,6 +145,16 @@ class UpdateDetailsView(LoginRequiredMixin, UpdateView):
         print(self.request.session["company_event_id"])
         # Context includes the table id / primary key for the detail used in back navigation
         return context
+    
+
+class DeleteDetailsView(LoginRequiredMixin, DeleteView):
+    model = Timeline_Event_Detail
+    template_name = "resume_builder/delete_details.html"
+
+    def get_success_url(self):
+        return reverse("resume_builder:update_company", kwargs={"pk": self.request.session["company_event_id"]})
+
+
 
 
 class DownloadView(LoginRequiredMixin, TemplateView):
