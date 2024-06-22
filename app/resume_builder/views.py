@@ -45,7 +45,11 @@ class EditorView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["timeline"] = Timeline_Event.objects.filter(user_id=self.request.user.id)
+        context["timeline"] = Timeline_Event.objects.filter(
+            user_id=self.request.user.id
+            ).order_by(
+                "org_name"
+            )
         return context
 
     def form_valid(self, form): # https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
