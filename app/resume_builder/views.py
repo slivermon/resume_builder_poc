@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (CreateView, ListView, TemplateView, UpdateView)
 
@@ -73,10 +74,92 @@ class UpdateCompany(LoginRequiredMixin, UpdateView):
         context["timeline_details"] = Timeline_Event_Detail.objects.filter(
             timeline_event_id=self.kwargs["pk"], user_id=self.request.user.id
             )
-        
+        context["company_id"] = self.kwargs["pk"]
+        self.request.session["company_event_id"] = self.kwargs["pk"]
+        print("pk:", self.request.session["company_event_id"])
         # Context incldues the table id / primary key for the company (event)
         return context
 
+# Working version
+# class UpdateCompany(LoginRequiredMixin, UpdateView):    
+#     model = Timeline_Event
+#     form_class = TimelineForm
+#     template_name = "resume_builder/update_company.html"
+#     success_url = "/resume/editor/"
+
+#     # Retrieves form data from database
+#     def get_object(self, queryset=None):
+#         return Timeline_Event.objects.get(pk=self.kwargs["pk"])
+    
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["timeline_details"] = Timeline_Event_Detail.objects.filter(
+#             timeline_event_id=self.kwargs["pk"], user_id=self.request.user.id
+#             )
+#         context["company_id"] = self.kwargs["pk"]
+#         request.session["company_event_id"] = context["company_id"]
+#         # Context incldues the table id / primary key for the company (event)
+#         return context
+
+
+class CreateDetails(LoginRequiredMixin, CreateView):
+    model = Timeline_Event_Detail
+    form_class = TimelineDetailForm
+    template_name = "resume_builder/create_details.html"
+    # success_url = "/resume/company/"
+
+    def get_success_url(self):
+        return reverse("resume_builder:update_company", kwargs={"pk": self.request.session["company_event_id"]})
+
+    def get_form_initial_data(self):
+        initial = {}
+        initial["timeline_details"] = Timeline_Event_Detail.objects.filter(
+            # id=self.kwargs["event_id"],
+            user_id=self.request.user.id,
+            )
+        
+        # context["timeline"] = Timeline_Event.objects.filter(
+        #     user_id=self.request.user.id,
+        #     timeline_event_id_id=self.request.session["company_event_id"],
+        #     )
+
+        # Make event id /company id directly accessbible in context without looping
+        initial["timeline_event_id"] = self.request.session["company_event_id"]
+        # Context includes the table id / primary key for the detail used in back navigation
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_form_initial_data())
+        print("transfer: ", self.request.session["company_event_id"])
+        return context
+
+    # Working version - keep until replacement works
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["timeline_details"] = Timeline_Event_Detail.objects.filter(
+    #         # id=self.kwargs["event_id"],
+    #         user_id=self.request.user.id,
+    #         )
+    #     # Make event id /company id directly accessbible in context without looping
+    #     context["company_id"] = context["timeline_details"][0].timeline_event_id_id
+    #     # Context includes the table id / primary key for the detail used in back navigation
+    #     return context
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        initial_data = self.get_form_initial_data()
+        kwargs["initial"] = {**kwargs.get("initial", {}), **initial_data}
+        return kwargs
+    
+    def form_valid(self, form): # https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
+        form.instance.user_id = self.request.user
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            "Detail added",
+        )
+        return super().form_valid(form) # Saves the form
 
 class UpdateDetails(LoginRequiredMixin, UpdateView):
     model = Timeline_Event_Detail
@@ -96,6 +179,7 @@ class UpdateDetails(LoginRequiredMixin, UpdateView):
             )
         # Make event id /company id directly accessbible in context without looping
         context["company_id"] = context["timeline_details"][0].timeline_event_id_id
+        print(self.request.session["company_event_id"])
         # Context includes the table id / primary key for the detail used in back navigation
         return context
 

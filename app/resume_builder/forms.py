@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.forms import ModelForm
-from django.forms.widgets import SelectDateWidget, Textarea
+from django.forms.widgets import HiddenInput, SelectDateWidget, Textarea
 from resume_builder.models import Timeline_Event, Timeline_Event_Detail
 
 # Create the form class using variables from the model
@@ -34,14 +34,19 @@ class TimelineForm(ModelForm):
 class TimelineDetailForm(ModelForm):
     class Meta:
         model = Timeline_Event_Detail
-        exclude = [
-            "timeline_event_id",
+        exclude = [            
             "user_id",
         ]
         fields = [
+            "timeline_event_id",
             "content",                       
         ]         
 
         widgets = {
             "content": Textarea(),
-        }   
+            # "timeline_event_id": HiddenInput(),
+        } 
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["timeline_event_id"].label = "" # Hide label from form in addition to HiddenInput()
