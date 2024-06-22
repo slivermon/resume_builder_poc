@@ -44,6 +44,7 @@
         <li>            
             <span>{{ event.org_name }}</span> <span class="fst-italic">({{ event.role_name }})</span>
             <a href="/resume/editor/company/{{ event.id }}" class="pencil ms-2"><span class="pencil">&#9998;</span></a>
+            <a href="{% url 'resume_builder:delete_company' event.id %}" class="pencil ms-2"><span class="pencil">&#10005;</span></a>
         </li>
     </ul>        
 {% endfor %}

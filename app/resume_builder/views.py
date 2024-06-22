@@ -78,6 +78,23 @@ class UpdateCompanyView(LoginRequiredMixin, UpdateView):
         print("pk:", self.request.session["company_event_id"])
         # Context incldues the table id / primary key for the company (event)
         return context
+    
+    def form_valid(self, form): # https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
+        form.instance.user_id = self.request.user
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            "Company/role updated",
+        )
+        return super().form_valid(form) # Saves the form
+    
+
+class DeleteCompanyView(LoginRequiredMixin, DeleteView):
+    model = Timeline_Event
+    template_name = "resume_builder/delete_company.html"
+
+    def get_success_url(self):
+        return reverse("resume_builder:editor")
 
 
 class CreateDetailsView(LoginRequiredMixin, CreateView):
@@ -146,6 +163,15 @@ class UpdateDetailsView(LoginRequiredMixin, UpdateView):
         # Context includes the table id / primary key for the detail used in back navigation
         return context
     
+    def form_valid(self, form): # https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
+        form.instance.user_id = self.request.user
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            "Detail updated",
+        )
+        return super().form_valid(form) # Saves the form
+    
 
 class DeleteDetailsView(LoginRequiredMixin, DeleteView):
     model = Timeline_Event_Detail
@@ -153,8 +179,6 @@ class DeleteDetailsView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse("resume_builder:update_company", kwargs={"pk": self.request.session["company_event_id"]})
-
-
 
 
 class DownloadView(LoginRequiredMixin, TemplateView):
