@@ -1,0 +1,55 @@
+{% extends "resume_builder/base.html" %}
+
+{% block title %}Update Company{% endblock %}
+
+{% block content %}
+<h1>Update Company</h1>
+<form class="d-flex flex-column p-3" action="" method = "post">
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+    {% endfor %}
+
+    {% csrf_token %}
+
+    {{ form.non_form_errors }}
+
+    {% if messages %}
+        <ul class="list-unstyled">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}            
+        </ul>
+    {% endif %}
+
+    {% for field in form %}
+        {{ field.errors }}        
+        <span class="p-3">
+            {{ field.label_tag }} {{ field }}
+        </span>
+    {% endfor %}
+    
+    <div class="d-grid gap-2 d-md-block justify-content-center">
+        <input class="btn btn-primary" type="submit" value="Update role">
+        <a href="/resume/editor/" class="btn btn-link" role="button">Cancel</a>
+    </div>
+</form>
+
+
+<h4 class="pt-5">Details</h4>
+{% if timeline_details %}        
+{% for detail in timeline_details %}    
+    <ul class="">
+        <li>            
+            <span class="">{{ detail.content }}</span>
+            <a href="/resume/editor/details/{{ detail.id }}" class="pencil ms-2"><span class="pencil">&#9998;</span></a>
+            <a href="{% url 'resume_builder:delete_details' detail.id %}" class="pencil ms-2"><span class="pencil">&#10005;</span></a>
+        </li>
+    </ul>        
+{% endfor %}
+{% else %}
+    <p>Add your first detail</p>    
+{% endif %}
+<a class="btn btn-primary" href="/resume/editor/details/new/">Create detail</a>
+
+{% endblock %}

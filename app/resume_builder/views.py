@@ -1,8 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
-from django.views.generic import (CreateView, DeleteView, ListView, TemplateView, UpdateView)
+from django.urls import reverse
+from django.views.generic import (CreateView, DeleteView, ListView, 
+                                  TemplateView, UpdateView)
+
+# Imports for reportlab
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from io import BytesIO
 
 
 from .forms import TimelineForm, TimelineDetailForm
@@ -187,3 +193,50 @@ class DeleteDetailsView(LoginRequiredMixin, DeleteView):
 
 class DownloadView(LoginRequiredMixin, TemplateView):
     template_name = "resume_builder/download.html"
+
+
+def get_pdf(request):
+    # Create a file-like buffer to receive PDF data
+    buffer = BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer, pagesize=letter)
+
+    # Get data from your ListView
+    # items = YourModel.objects.all()  # Adjust this query as needed
+        
+    queryset = Timeline_Event.objects.filter(
+        user_id=request.user.id
+        ).order_by("-timeline_start_date"
+        )
+    context = []
+    for item in queryset:
+        details = []
+        qs = Timeline_Event_Detail.objects.filter(timeline_event_id=item.pk)
+        for detail in qs:
+            details.append(
+                detail.content
+            ) 
+        context.append({            
+            "role": item.role_name,
+            "company": item.org_name,
+            "start_date": item.timeline_start_date,
+            "end_date": item.timeline_end_date,
+            "content": details,               
+        }) 
+        
+
+    # Draw things on the PDF
+    y = 750  # Starting y position
+    for item in context:
+        p.drawString(100, y, f"{item}: {item}")  # Adjust fields as needed
+        y -= 20  # Move down by 20 points
+
+    # Close the PDF object cleanly, and we're done
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='output.pdf')

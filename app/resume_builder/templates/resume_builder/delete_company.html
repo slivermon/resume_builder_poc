@@ -1,0 +1,35 @@
+{% extends "resume_builder/base.html" %}
+
+{% block title %}Delete Company{% endblock %}
+
+
+{% block content %}
+<h1>Delete Company</h1>
+<form class="d-flex flex-column p-3" action="" method = "post">
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+    {% endfor %}
+
+    {% csrf_token %}
+
+    {{ form.non_form_errors }}
+
+    {% if messages %}
+        <ul class="list-unstyled">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}            
+        </ul>
+    {% endif %}
+
+    <p class="fw-bold">Confirm deletion of company:</p>
+    <p>{{ object.org_name }}</p>
+       
+        <div class="d-grid gap-2 d-md-block justify-content-center">
+        <input class="btn btn-primary" type="submit" value="Delete">
+        <a href="/resume/editor/" class="btn btn-link" role="button">Cancel</a>
+    </div>
+</form>
+
+{% endblock %}

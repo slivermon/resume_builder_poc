@@ -13,5 +13,5 @@ urlpatterns = [
     path("editor/details/new/", views.CreateDetailsView.as_view(), name="create_details"),
     path("editor/details/<int:pk>/", views.UpdateDetailsView.as_view(), name="update_details"),
     path("editor/details/delete/<int:pk>", views.DeleteDetailsView.as_view(), name="delete_details"),
-    path("download/", views.DownloadView.as_view(), name="download"),
+    path("download/", views.get_pdf, name="download"),
 ]
