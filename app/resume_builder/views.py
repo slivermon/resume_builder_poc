@@ -64,6 +64,7 @@ class UpdateCompany(LoginRequiredMixin, UpdateView):
     template_name = "resume_builder/update_company.html"
     success_url = "/resume/editor/"
 
+    # Retrieves form data from database
     def get_object(self, queryset=None):
         return Timeline_Event.objects.get(pk=self.kwargs["pk"])
     
@@ -72,23 +73,30 @@ class UpdateCompany(LoginRequiredMixin, UpdateView):
         context["timeline_details"] = Timeline_Event_Detail.objects.filter(
             timeline_event_id=self.kwargs["pk"], user_id=self.request.user.id
             )
+        
+        # Context incldues the table id / primary key for the company (event)
         return context
 
 
 class UpdateDetails(LoginRequiredMixin, UpdateView):
     model = Timeline_Event_Detail
     form_class = TimelineDetailForm
-    template_name = "resume_builder/update_company.html"
+    template_name = "resume_builder/update_details.html"
     success_url = "/resume/company/"
 
+    # Retrieves form data from database
     def get_object(self, queryset=None):
         return Timeline_Event_Detail.objects.get(pk=self.kwargs["pk"])
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["timeline_details"] = Timeline_Event_Detail.objects.filter(
-            timeline_event_id=self.kwargs["pk"], user_id=self.request.user.id
+            id=self.kwargs["pk"],
+            user_id=self.request.user.id,
             )
+        # Make event id /company id directly accessbible in context without looping
+        context["company_id"] = context["timeline_details"][0].timeline_event_id_id
+        # Context includes the table id / primary key for the detail used in back navigation
         return context
 
 class Download(LoginRequiredMixin, TemplateView):
