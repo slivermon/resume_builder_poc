@@ -1,10 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import (CreateView, ListView, TemplateView, UpdateView)
 
 
-from .forms import TimelineForm
+from .forms import TimelineForm, TimelineDetailForm
 from .models import Timeline_Event, Timeline_Event_Detail
 
 
@@ -66,12 +66,27 @@ class UpdateCompany(LoginRequiredMixin, UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["timeline_detail"] = Timeline_Event_Detail.objects.filter(user_id=self.request.user.id)
+        context["timeline_details"] = Timeline_Event_Detail.objects.filter(
+            timeline_event_id=self.kwargs["pk"], user_id=self.request.user.id
+            )
         return context
 
 
 class UpdateDetails(LoginRequiredMixin, UpdateView):
-    pass
+    model = Timeline_Event_Detail
+    form_class = TimelineDetailForm
+    template_name = "resume_builder/update_company.html"
+    success_url = "/resume/company/"
+
+    def get_object(self, queryset=None):
+        return Timeline_Event_Detail.objects.get(pk=self.kwargs["pk"])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["timeline_details"] = Timeline_Event_Detail.objects.filter(
+            timeline_event_id=self.kwargs["pk"], user_id=self.request.user.id
+            )
+        return context
 
 class Download(LoginRequiredMixin, TemplateView):
     template_name = "resume_builder/download.html"

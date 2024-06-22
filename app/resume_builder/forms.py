@@ -1,7 +1,7 @@
 from datetime import datetime
-from django.forms import ModelForm, DateInput
-from django.forms.widgets import HiddenInput, SelectDateWidget
-from resume_builder.models import Timeline_Event
+from django.forms import ModelForm
+from django.forms.widgets import SelectDateWidget, Textarea
+from resume_builder.models import Timeline_Event, Timeline_Event_Detail
 
 # Create the form class using variables from the model
 class TimelineForm(ModelForm):
@@ -30,3 +30,18 @@ class TimelineForm(ModelForm):
             # "timeline_start_date": DateInput(attrs={'type': 'date', 'format': '%Y-%m'}),
             "timeline_end_date": SelectDateWidget(years=years),            
         }
+
+class TimelineDetailForm(ModelForm):
+    class Meta:
+        model = Timeline_Event_Detail
+        exclude = [
+            "timeline_event_id",
+            "user_id",
+        ]
+        fields = [
+            "content",                       
+        ]         
+
+        widgets = {
+            "content": Textarea(),
+        }   
