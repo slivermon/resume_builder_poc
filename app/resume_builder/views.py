@@ -13,7 +13,10 @@ class Index(LoginRequiredMixin, ListView):
     template_name = "resume_builder/index.html"
 
     def get_queryset(self):     
-        queryset = Timeline_Event.objects.filter(user_id=self.request.user.id)
+        queryset = Timeline_Event.objects.filter(
+            user_id=self.request.user.id
+            ).order_by("-timeline_start_date"
+            )
         context = []
         for item in queryset:
             details = []
