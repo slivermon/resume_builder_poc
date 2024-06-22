@@ -1,7 +1,7 @@
-# from typing import Any
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import (TemplateView, ListView, CreateView)
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, ListView, TemplateView, UpdateView)
 
 
 from .forms import TimelineForm
@@ -53,7 +53,25 @@ class Editor(LoginRequiredMixin, CreateView):
             "Event added to timeline",
         )
         return super().form_valid(form) # Saves the form
+    
 
+class UpdateCompany(LoginRequiredMixin, UpdateView):    
+    model = Timeline_Event
+    form_class = TimelineForm
+    template_name = "resume_builder/update_company.html"
+    success_url = "/resume/editor/"
+
+    def get_object(self, queryset=None):
+        return Timeline_Event.objects.get(pk=self.kwargs["pk"])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["timeline_detail"] = Timeline_Event_Detail.objects.filter(user_id=self.request.user.id)
+        return context
+
+
+class UpdateDetails(LoginRequiredMixin, UpdateView):
+    pass
 
 class Download(LoginRequiredMixin, TemplateView):
     template_name = "resume_builder/download.html"

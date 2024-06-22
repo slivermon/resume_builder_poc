@@ -18,3 +18,8 @@ ul.detail-bullets {
     /* padding: 10;
     margin: 10; */
 }
+
+a.pencil {
+    color: grey;
+    text-decoration: none;
+}
