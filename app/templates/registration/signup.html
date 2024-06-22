@@ -3,10 +3,33 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
+
 <h2>Sign Up</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form }}
-  <button type="submit">Sign Up</button>
+
+<form class="d-flex flex-column p-3" method="post">
+
+    {% csrf_token %}    
+    
+    <!-- {{ form }} -->
+
+    {% for field in form %}
+    {{ field.errors }}        
+        <span class="p-3">
+            {{ field.label_tag }} {{ field }}
+        </span>
+    {% endfor %}
+
+    <div class="d-grid gap-2 d-md-block justify-content-center">
+        <button class="btn btn-primary" type="submit">Sign Up</button>
+    </div>
+
 </form>
+
+<h5 class="p-3">Info:</h5>
+<ul>
+    <li>Your password can't be too similar to your other personal information.</li>
+    <li>Your password must contain at least 8 characters.</li>
+    <li>Your password can't be a commonly used password.</li>  
+    <li>Your password can't be entirely numeric.</li>
+</ul>
 {% endblock %}
