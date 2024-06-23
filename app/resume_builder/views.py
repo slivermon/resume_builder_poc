@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, ListView, 
                                   TemplateView, UpdateView)
@@ -195,12 +196,56 @@ class DownloadView(LoginRequiredMixin, TemplateView):
     template_name = "resume_builder/download.html"
 
 
+def get_txt(request):
+    response = HttpResponse(content_type="text/plain")
+    response["Content-Disposition"] = "attachement; filename=resume.txt"
+
+    # lines = ["line 1\n", "line 2\n"]
+
+    queryset = Timeline_Event.objects.filter(
+        user_id=request.user.id
+        ).order_by("-timeline_start_date"
+        )
+    experience = []
+    for item in queryset:
+        details = []
+        qs = Timeline_Event_Detail.objects.filter(timeline_event_id=item.pk)
+        for detail in qs:
+            details.append(
+                detail.content
+            ) 
+        experience.append({            
+            "role": item.role_name,
+            "company": item.org_name,
+            "start_date": item.timeline_start_date,
+            "end_date": item.timeline_end_date,
+            "content": details,               
+        }) 
+    
+    lines = []
+    full_name = f"{request.user.first_name} {request.user.last_name}"
+    lines.append(f"{full_name}\n\n")
+
+    for role in experience:
+        for key, value in role.items():
+            if key == "content":
+                for bullet in value:                    
+                    lines.append(f"  - {bullet}\n")
+            else:                
+                lines.append(f"{value}\n")
+        lines.append("\n")
+
+    # Write to txt file
+    response.writelines(lines)
+    return response
+
+
 def get_pdf(request):
     # Create a file-like buffer to receive PDF data
     buffer = BytesIO()
 
     # Create the PDF object, using the buffer as its "file."
-    p = canvas.Canvas(buffer, pagesize=letter)
+    c = canvas.Canvas(buffer, pagesize=letter)
 
     # Get data from your ListView
     # items = YourModel.objects.all()  # Adjust this query as needed
@@ -229,12 +274,12 @@ def get_pdf(request):
     # Draw things on the PDF
     y = 750  # Starting y position
     for item in context:
-        p.drawString(100, y, f"{item}: {item}")  # Adjust fields as needed
+        c.drawString(20, y, f"{item}: {item}")  # Adjust fields as needed
         y -= 20  # Move down by 20 points
 
     # Close the PDF object cleanly, and we're done
-    p.showPage()
-    p.save()
+    c.showPage()
+    c.save()
 
     # FileResponse sets the Content-Disposition header so that browsers
     # present the option to save the file.

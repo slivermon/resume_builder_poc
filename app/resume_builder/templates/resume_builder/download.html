@@ -3,12 +3,8 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h1>Download</h1>
-{% for item in context %}
-    <ul>
-        <li>
-            {{ item }}
-        </li>
-    </ul>
-{% endfor %}
+<h1 class="mb-5">Download</h1>
+    <a class="btn btn-primary mb-3" href="{% url 'resume_builder:get_txt' %}">Get txt</a>
+    <br>
+    <a class="btn btn-primary" href="{% url 'resume_builder:get_pdf' %}">TODO: Get PDF</a>
 {% endblock %}
